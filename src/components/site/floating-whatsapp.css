@@ -1,0 +1,153 @@
+/* The floating WhatsApp alone keeps a circular face and its existing green border beam. */
+.floating-whatsapp {
+  --wa-edge: max(24px, env(safe-area-inset-right));
+  --wa-bottom: max(24px, env(safe-area-inset-bottom));
+  --wa-size: 56px;
+  --wa-ring: 1.5px;
+  position: fixed;
+  z-index: 35;
+  right: var(--wa-edge);
+  bottom: var(--wa-bottom);
+}
+.floating-whatsapp .floating-whatsapp-button {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  display: grid;
+  place-items: center;
+  width: var(--wa-size);
+  height: var(--wa-size);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    120% 120% at 50% 0%,
+    var(--ink-700),
+    var(--ink-800) 46%,
+    var(--ink-900)
+  );
+  color: var(--silver-100);
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.75);
+  transition:
+    box-shadow 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
+  animation: floating-whatsapp-enter 260ms var(--ease-out) backwards;
+}
+.floating-whatsapp .floating-whatsapp-button svg {
+  display: block;
+  transition: color 220ms var(--ease-out);
+}
+.floating-whatsapp-button .silver-trace--green {
+  border-radius: 50%;
+}
+.floating-whatsapp .floating-whatsapp-button:focus-visible {
+  outline: 2px solid #25d366;
+  outline-offset: 3px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .floating-whatsapp .floating-whatsapp-button:hover {
+    box-shadow:
+      0 14px 30px -14px rgba(0, 0, 0, 0.75),
+      0 6px 22px -6px rgba(37, 211, 102, 0.32);
+    transform: translateY(-6px);
+  }
+  .floating-whatsapp .floating-whatsapp-button:hover svg {
+    color: #fff;
+  }
+}
+@keyframes floating-whatsapp-orbit {
+  to {
+    transform: rotate(1turn);
+  }
+}
+@keyframes floating-whatsapp-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.floating-whatsapp .floating-whatsapp-menu {
+  position: fixed;
+  inset: auto;
+  left: auto;
+  right: calc(var(--wa-edge) + var(--wa-size) + 12px);
+  bottom: var(--wa-bottom);
+  width: min(400px, calc(100% - var(--wa-edge) * 2 - var(--wa-size) - 12px));
+  margin: 0;
+  padding: 6px;
+  gap: 6px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-card);
+  background: var(--ink-900);
+  color: var(--silver-100);
+  opacity: 0;
+  transform: translateX(8px);
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out),
+    display 200ms allow-discrete,
+    overlay 200ms allow-discrete;
+}
+.floating-whatsapp .floating-whatsapp-menu:popover-open {
+  display: flex;
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .floating-whatsapp .floating-whatsapp-menu:popover-open {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+}
+.floating-whatsapp .floating-whatsapp-menu:focus {
+  outline: none;
+}
+.floating-whatsapp .floating-person {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 52px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 6px;
+  border-radius: var(--radius-control);
+  text-align: center;
+}
+.floating-whatsapp .floating-person strong {
+  font-size: 12px;
+  font-weight: 600;
+}
+.floating-whatsapp .floating-person span {
+  font-size: 10px;
+  color: var(--silver-400);
+}
+@media (hover: hover) and (pointer: fine) {
+  .floating-whatsapp .floating-person:hover {
+    background: rgba(215, 220, 224, 0.07);
+  }
+}
+
+@media (max-width: 420px) {
+  .floating-whatsapp {
+    --wa-edge: max(12px, env(safe-area-inset-right));
+    --wa-bottom: max(16px, env(safe-area-inset-bottom));
+    --wa-size: 52px;
+  }
+  .floating-whatsapp .floating-whatsapp-menu {
+    right: calc(var(--wa-edge) + var(--wa-size) + 10px);
+    width: calc(100% - var(--wa-edge) * 2 - var(--wa-size) - 10px);
+  }
+  .floating-whatsapp .floating-person strong {
+    font-size: 11px;
+  }
+  .floating-whatsapp .floating-person span {
+    font-size: 9px;
+  }
+}

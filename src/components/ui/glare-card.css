@@ -1,0 +1,87 @@
+.glare-card {
+  --glare-x: 50%;
+  --glare-y: 0%;
+  --glare-color: rgba(255, 255, 255, 0.9);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.glare-card[data-tilt] {
+  transform: perspective(600px) rotateY(var(--r-x, 0deg)) rotateX(var(--r-y, 0deg));
+  transition: transform 300ms ease;
+  will-change: transform;
+}
+.glare-card[data-tilt]:hover {
+  transition-duration: 90ms;
+}
+.glare-card-light {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    420px circle at var(--glare-x) var(--glare-y),
+    var(--glare-color),
+    transparent 62%
+  );
+  transition: opacity 260ms var(--ease-out);
+}
+.glare-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(
+    260px circle at var(--glare-x) var(--glare-y),
+    var(--glare-edge, rgba(28, 31, 34, 0.5)),
+    transparent 70%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 260ms var(--ease-out);
+}
+.glare-card-foil {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  mix-blend-mode: soft-light;
+  background: repeating-linear-gradient(
+      128deg,
+      transparent 0%,
+      rgba(232, 236, 239, 0.55) 3.8%,
+      rgba(174, 184, 192, 0.7) 4.5%,
+      rgba(232, 236, 239, 0.55) 5.2%,
+      transparent 10%,
+      transparent 12%
+    )
+    var(--foil-x, 50%) var(--foil-y, 50%) / 300% no-repeat;
+  transition: opacity 260ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .glare-card:hover .glare-card-light {
+    opacity: 0.7;
+  }
+  .glare-card:hover .glare-card-foil {
+    opacity: 1;
+  }
+  .glare-card:hover::after {
+    opacity: 1;
+  }
+}
+.glare-card:focus-within::after {
+  opacity: 1;
+}

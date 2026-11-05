@@ -1,0 +1,75 @@
+/* Hover feedback belongs to the icon tile, never to a second transform on the card reveal. */
+.zury-site .card-icon > svg {
+  transition: transform 220ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .zury-site :is(.referral-card, .difference-row):hover .card-icon > svg {
+    transform: translateY(-2px);
+  }
+}
+
+/* Native anchors retain browser history, interruption and the existing 96px inset. */
+html.zury-native-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Direction changes toggle only opacity; hidden controls cannot intercept input. */
+.zury-site .site-header {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 520ms var(--ease-out),
+    visibility 0s;
+}
+.zury-site .site-header[data-hidden="true"] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: none;
+  transition:
+    opacity 520ms var(--ease-out),
+    visibility 0s 520ms;
+}
+
+.zury-site[data-hero-entered="true"] .hero-line {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .zury-site :is(#como-funciona, #companhias, #beneficios) [data-reveal],
+  .zury-site :is(#como-funciona, #companhias, #beneficios) [data-split] * {
+    transform: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+  .zury-site :is(#como-funciona, #companhias, #beneficios) [data-split] * {
+    overflow: visible !important;
+  }
+  .zury-site .hero-actions {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  html.zury-native-scroll {
+    scroll-behavior: auto;
+  }
+  .zury-site .hero-line {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+  .zury-site .site-header,
+  .zury-site .site-header[data-hidden="true"] {
+    transition: none;
+  }
+  .zury-site .silver-trace::after {
+    animation: none !important;
+    opacity: 0;
+  }
+  .zury-site :is(.quote-trigger, .hero-contact, .referral-cta, .floating-whatsapp-button) {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

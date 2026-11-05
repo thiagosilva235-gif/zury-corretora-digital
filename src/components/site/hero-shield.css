@@ -1,0 +1,71 @@
+.hero-shield {
+  --hero-shield-art-size: 88.75838%; /* Previous size × 0.92: an additional 8% reduction. */
+  width: min(100%, 620px, 44vw);
+  aspect-ratio: 1;
+  position: relative;
+  margin: 64px auto 0;
+  min-width: 0;
+  isolation: isolate;
+  perspective: 1400px;
+}
+.hero-shield::before,
+.hero-shield::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  z-index: -1;
+}
+.hero-shield::before {
+  inset: -8% -16% -5%;
+  background:
+    radial-gradient(ellipse 34% 54% at 55% 47%, rgba(214, 211, 209, 0.13), transparent 76%),
+    radial-gradient(ellipse 38% 40% at 82% 65%, rgba(234, 234, 229, 0.07), transparent 78%);
+}
+.hero-shield::after {
+  left: -20%;
+  top: 49%;
+  width: 143%;
+  height: 44%;
+  border-bottom: 1px solid rgba(214, 211, 209, 0.38);
+  border-radius: 0 0 65% 48%;
+  background: radial-gradient(
+    ellipse 46% 36% at 67% 100%,
+    rgba(214, 211, 209, 0.18),
+    transparent 85%
+  );
+  box-shadow: 0 14px 30px -21px rgba(234, 234, 229, 0.5);
+  transform: rotate(-24deg);
+  mask-image: linear-gradient(90deg, transparent, black 28%, black 78%, transparent);
+}
+.hero-shield-pose {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: rotateY(-16deg) rotateZ(5deg);
+  transform-style: preserve-3d;
+}
+.hero-shield .image-shield-tilt {
+  display: grid;
+  place-items: center;
+}
+.hero-shield .image-shield-art {
+  width: var(--hero-shield-art-size);
+  height: var(--hero-shield-art-size);
+}
+@media (max-width: 767px) {
+  .hero-shield {
+    width: min(72%, 340px);
+    margin: 4px 0 0;
+  }
+  .hero-shield-pose {
+    transform: rotateY(-9deg) rotateZ(3deg);
+  }
+  .hero-shield::before {
+    opacity: 0.7;
+  }
+  .hero-shield::after {
+    left: -5%;
+    width: 115%;
+    opacity: 0.7;
+  }
+}

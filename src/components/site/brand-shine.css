@@ -1,0 +1,111 @@
+/* Both reflections share the logo's 3.4 s cycle and one document-timeline epoch. */
+:root {
+  --brand-shine-duration: 3.4s;
+  --brand-shine-band: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.9) 50%,
+    transparent 100%
+  );
+}
+/* Logo shine shared by the /cartao masthead and the site navbar: a soft white band sweeps across the official
+   mark, masked to the logo's own shape, every 3.4 s. Put `.brand-shine` on the positioned element that wraps
+   the logo and render `<span className="brand-shine-light" aria-hidden="true" />` inside it;
+   `--brand-shine-mask` points at the logo file whose silhouette clips the light.
+   The mask stays still on the span while the band moves by transform only: the sweep runs on the compositor,
+   so the always-visible navbar never forces a style/paint/commit frame on every vsync. */
+.brand-shine {
+  --brand-shine-mask: url("/brand/zury-assinatura-enviada.png");
+  position: relative;
+}
+.brand-shine-light {
+  position: absolute;
+  inset: 0;
+  display: none;
+  overflow: hidden;
+  transform: scale(1.3);
+  pointer-events: none;
+}
+@supports (mask-image: url("/brand/zury-assinatura-enviada.png")) {
+  .brand-shine-light {
+    display: block;
+    -webkit-mask: var(--brand-shine-mask) center / contain no-repeat;
+    mask: var(--brand-shine-mask) center / contain no-repeat;
+  }
+  /* 40% wide band, from fully left of the mark (-150% of itself) to fully right (300%). */
+  .brand-shine-light::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 40%;
+    background: var(--brand-shine-band);
+    transform: translateX(-150%);
+    animation: brand-shine var(--brand-shine-duration) linear infinite;
+  }
+}
+@keyframes brand-shine {
+  0% {
+    transform: translateX(-150%);
+  }
+  55%,
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+/* Same 40% band, 105-degree angle and 55% travel/45% rest as the logo.
+   Text clipping keeps the reflection off the hero background. Its path is the
+   background-position equivalent of the logo's -150% to 300% translation. */
+.hero-text-shine {
+  display: none;
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .hero-text-shine {
+    display: block;
+    position: absolute;
+    inset: 0;
+    padding: inherit;
+    pointer-events: none;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(105deg, transparent 0%, #fff 50%, transparent 100%);
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.55));
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    background-position: -100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: brand-text-shine var(--brand-shine-duration) linear infinite both;
+    visibility: hidden;
+  }
+}
+.zury-site[data-shine-ready="true"] .hero-text-shine {
+  visibility: visible;
+}
+@keyframes brand-text-shine {
+  0% {
+    background-position: -100% 0;
+  }
+  55%,
+  100% {
+    background-position: 200% 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-shine-light,
+  .hero-text-shine {
+    display: none !important;
+  }
+}
+@media (forced-colors: active) {
+  .hero-text-shine {
+    display: none;
+  }
+  .zury-site .hero-scroll .hero-line-accent {
+    background: Canvas;
+    color: CanvasText;
+    -webkit-text-fill-color: CanvasText;
+  }
+}

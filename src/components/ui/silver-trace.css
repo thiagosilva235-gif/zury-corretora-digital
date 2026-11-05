@@ -1,0 +1,222 @@
+/* Silver Light Trace: a 1px satin silver-graphite ring on a control's outer edge and a light that travels it.
+   The ring is masked to the border area, so ring and light follow the control's radius exactly and never reach
+   its face. `--loop` runs the beam continuously (primary CTA only); every other trace passes once on hover or
+   focus-visible, brightening the ring without moving or resizing the control. CSS motion; green loop phases are aligned once on mount and resume. */
+@property --silver-trace-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+.silver-trace {
+  /* Satin: a diffuse lighter band top-left and a softer one lower right, never a hard specular line. */
+  --silver-trace-ring: linear-gradient(
+    165deg,
+    rgba(236, 239, 241, 0.46),
+    rgba(146, 152, 157, 0.2) 42%,
+    rgba(204, 209, 213, 0.32) 68%,
+    rgba(112, 118, 123, 0.22)
+  );
+  --silver-trace-ring-lit: linear-gradient(
+    165deg,
+    rgba(246, 247, 248, 0.78),
+    rgba(178, 184, 189, 0.4) 42%,
+    rgba(226, 230, 233, 0.56) 68%,
+    rgba(146, 152, 157, 0.4)
+  );
+  --silver-trace-light: rgba(255, 255, 255, 0.95);
+  --silver-trace-glow: rgba(226, 230, 233, 0.6);
+  --silver-trace-beam: 112px;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  box-sizing: border-box;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--silver-trace-ring);
+  pointer-events: none;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+/* Light-faced controls: the same finish in dark graphite. */
+.silver-trace--graphite {
+  --silver-trace-ring: linear-gradient(
+    165deg,
+    rgba(20, 23, 26, 0.34),
+    rgba(77, 84, 90, 0.22) 42%,
+    rgba(20, 23, 26, 0.28) 68%,
+    rgba(77, 84, 90, 0.2)
+  );
+  --silver-trace-ring-lit: linear-gradient(
+    165deg,
+    rgba(10, 12, 14, 0.62),
+    rgba(58, 64, 70, 0.4) 42%,
+    rgba(10, 12, 14, 0.5) 68%,
+    rgba(58, 64, 70, 0.38)
+  );
+  --silver-trace-light: rgba(10, 12, 14, 0.92);
+  --silver-trace-glow: rgba(58, 64, 70, 0.5);
+}
+/* Brighter ring for hover and focus; faded in, never resized. */
+.silver-trace::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--silver-trace-ring-lit);
+  opacity: 0;
+  transition: opacity 360ms var(--ease-out);
+}
+/* The beam: a soft light carried along the border box at constant speed; it fades out before the far edge. */
+.silver-trace::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--silver-trace-beam);
+  height: var(--silver-trace-beam);
+  background: radial-gradient(
+    closest-side,
+    var(--silver-trace-light),
+    var(--silver-trace-glow) 30%,
+    transparent 70%
+  );
+  offset-path: border-box;
+  offset-anchor: center;
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  opacity: 0;
+}
+.silver-trace--loop::after {
+  opacity: 1;
+  animation: silver-trace-loop 4200ms linear infinite;
+}
+@keyframes silver-trace-loop {
+  from {
+    offset-distance: 0%;
+  }
+  to {
+    offset-distance: 100%;
+  }
+}
+@keyframes silver-trace-pass {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  14%,
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
+  }
+}
+/* Engines without border-box motion paths sweep a conic highlight round the same ring instead. */
+@supports not (offset-path: border-box) {
+  .silver-trace::after {
+    inset: 0;
+    width: auto;
+    height: auto;
+    background: conic-gradient(
+      from var(--silver-trace-angle),
+      transparent 0deg 300deg,
+      var(--silver-trace-glow) 336deg,
+      var(--silver-trace-light) 350deg,
+      transparent 360deg
+    );
+  }
+  @keyframes silver-trace-loop {
+    from {
+      --silver-trace-angle: 0deg;
+    }
+    to {
+      --silver-trace-angle: 360deg;
+    }
+  }
+  @keyframes silver-trace-pass {
+    0% {
+      --silver-trace-angle: 0deg;
+      opacity: 0;
+    }
+    14%,
+    80% {
+      opacity: 0.9;
+    }
+    100% {
+      --silver-trace-angle: 360deg;
+      opacity: 0;
+    }
+  }
+}
+:is(a, button):focus-visible .silver-trace::before {
+  opacity: 0.8;
+}
+:is(a, button):focus-visible .silver-trace:not(.silver-trace--loop)::after {
+  animation: silver-trace-pass 1200ms cubic-bezier(0.45, 0.05, 0.35, 1) both;
+}
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button):hover .silver-trace::before {
+    opacity: 1;
+  }
+  :is(a, button):hover .silver-trace:not(.silver-trace--loop)::after {
+    animation: silver-trace-pass 1200ms cubic-bezier(0.45, 0.05, 0.35, 1) both;
+  }
+}
+@media (forced-colors: active) {
+  .silver-trace {
+    display: none;
+  }
+}
+
+/* Thin external green edge: never paints over the control face. */
+.silver-trace--green {
+  --silver-trace-ring: rgba(37, 211, 102, 0.12);
+  --silver-trace-ring-lit: rgba(37, 211, 102, 0.18);
+  --silver-trace-light: #c2ffda;
+  --silver-trace-glow: #25d366;
+  --silver-trace-beam: 150px;
+  inset: -1.5px;
+  padding: 1.5px;
+  border-radius: calc(var(--radius-control) + 1.5px);
+}
+.silver-trace--green::after {
+  animation-duration: 3600ms;
+}
+
+/* A slightly clearer external beam only on the homepage's navbar and hero quote controls. */
+.zury-site
+  :is(.desktop-quote, .header-quote, .hero-actions > .quote-trigger)
+  > .silver-trace--green {
+  --silver-trace-ring: rgba(37, 211, 102, 0.2);
+  --silver-trace-light: #eafff0;
+  --silver-trace-glow: #38e979;
+  --silver-trace-beam: 185px;
+  inset: -1.8px;
+  padding: 1.8px;
+  border-radius: calc(var(--radius-control) + 1.8px);
+}
+
+/* Thicken only the requested green edges, preserving their path and timing. */
+.zury-site :is(.referral-cta, .cta-marquee-actions > .green-cta) > .silver-trace--green {
+  inset: -1.95px;
+  padding: 1.95px;
+  border-radius: calc(var(--radius-control) + 1.95px);
+}
+@media (min-width: 1100px) {
+  .zury-site :is(.desktop-quote, .hero-actions > .quote-trigger) > .silver-trace--green {
+    inset: -2.34px;
+    padding: 2.34px;
+    border-radius: calc(var(--radius-control) + 2.34px);
+  }
+  .zury-site .hero-actions > .hero-contact > .silver-trace--green {
+    inset: -1.95px;
+    padding: 1.95px;
+    border-radius: calc(var(--radius-control) + 1.95px);
+  }
+}

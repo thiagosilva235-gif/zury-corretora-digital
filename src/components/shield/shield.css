@@ -1,0 +1,41 @@
+.zury-shield {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  isolation: isolate;
+  touch-action: pan-y;
+}
+.shield-renderer,
+.shield-poster,
+.shield-webgl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.shield-poster {
+  opacity: 1;
+  transition: opacity var(--shield-poster-fade) ease;
+}
+.shield-poster img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.shield-webgl {
+  opacity: 0;
+  transition: opacity var(--shield-entry-duration) var(--shield-entry-ease);
+}
+.shield-renderer[data-ready="true"] .shield-webgl {
+  opacity: 1;
+}
+.shield-renderer[data-ready="true"] .shield-poster {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .shield-webgl,
+  .shield-poster {
+    transition: none;
+  }
+}

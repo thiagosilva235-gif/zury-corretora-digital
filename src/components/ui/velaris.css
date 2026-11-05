@@ -1,0 +1,18 @@
+.velaris {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: radial-gradient(ellipse 60% 70% at 70% 45%, #2f363a, transparent 75%), var(--ink-950);
+}
+.velaris canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 900ms var(--ease-out);
+}
+.velaris canvas[data-ready="true"] {
+  opacity: 1;
+}

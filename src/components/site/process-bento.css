@@ -1,0 +1,490 @@
+/* Como Funciona on paper: three quote steps in one row (photo, white form card, photo); below desktop they become
+   a swipe carousel like Nossas Soluções. Every card keeps the same bottom scrim and the copy pinned to the lower edge. */
+.process {
+  border-top: 1px solid var(--line-light);
+}
+.process-head {
+  margin-bottom: clamp(36px, 5vw, 64px);
+}
+.process-head h2 {
+  margin: 0;
+  font-size: clamp(32px, 3vw + 12px, 60px);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: var(--tracking-section);
+  color: var(--ink-900);
+}
+.process-head p {
+  margin: 14px 0 0;
+  max-width: 32ch;
+  font-size: clamp(18px, 1.4vw + 6px, 26px);
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--steel-600);
+  text-wrap: balance;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+  padding-block: 4px;
+}
+.process-step {
+  min-height: 500px;
+  animation: process-card-float 6s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+  transition: transform 220ms var(--ease-out);
+}
+.process-step:nth-child(2) {
+  animation-delay: -0.8s;
+}
+.process-step:nth-child(3) {
+  animation-delay: -1.6s;
+}
+.process[data-motion-paused="true"] .process-step,
+.process-step:focus-within {
+  animation-play-state: paused;
+}
+@media (hover: hover) and (pointer: fine) {
+  .process-step:hover {
+    animation-play-state: paused;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .process-step:hover {
+    /* GSAP owns the entry transform; lift the finished card without disturbing its float phase. */
+    transform: translateY(-6px) !important;
+  }
+}
+@keyframes process-card-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -3px;
+  }
+}
+.process-card-quote .bento-title {
+  font-size: clamp(1.25rem, 1.4vw + 0.375rem, 1.625rem);
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+.process-step .bento-description {
+  font-size: 0.875rem;
+}
+
+/* Photographs fill their cards and the copy sits on the lower scrim. Every card keeps the same
+   scrim, the same padding and the copy pinned to the bottom edge. ETAPA 02 has no photograph, so
+   the customer form is drawn on a white surface, above the same copy panel. */
+.process-card .bento-graphic {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+.process-card .bento-copy {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  flex: none;
+  margin-top: auto;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.55) 36%,
+    rgba(0, 0, 0, 0.86) 60%,
+    rgb(0, 0, 0) 84%
+  );
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  padding-top: 88px;
+}
+
+/* Photo steps get a soft top shade so the numeral reads over bright skies. */
+.process-step:not(.process-card-fill)::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 150px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.42), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+/* Step numerals: a thin, large figure over the top corner with a hairline below it. */
+.process-step .bento-index {
+  position: absolute;
+  top: 22px;
+  left: clamp(24px, 3vw, 40px);
+  z-index: 2;
+  padding-bottom: 10px;
+  font-size: 44px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(245, 247, 248, 0.92);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.process-step .bento-index::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.6;
+  transform-origin: left;
+  transition: transform 420ms var(--ease-out);
+}
+.process-step .bento-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.process-step-icon {
+  flex-shrink: 0;
+  transition: transform 320ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .process-step:hover .bento-index::after {
+    transform: scaleX(1.8);
+  }
+  .process-step:hover .process-step-icon {
+    transform: translateY(-2px);
+  }
+}
+
+/* ETAPA 02: a white card. The drawn form stands in for the photograph. The black scrim climbs from
+   the white through eased stops, so there is no grey band, reaching the near-black of the photographs. */
+.process-card.process-card-fill {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(20, 23, 26, 0.1);
+}
+.process-card-fill .bento-index {
+  color: var(--ink-900);
+  text-shadow: none;
+}
+.process-card-fill .bento-copy {
+  padding-top: 96px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 10%,
+    rgba(0, 0, 0, 0.34) 22%,
+    rgba(0, 0, 0, 0.68) 34%,
+    rgba(0, 0, 0, 0.9) 46%,
+    rgb(0, 0, 0) 60%
+  );
+}
+
+.process-dots {
+  display: none;
+}
+/* Tablet and phone: the three steps become a swipe carousel with a position indicator, so no copy is cramped. */
+@media (max-width: 1023px) {
+  .process-grid {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter) 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .process-grid::-webkit-scrollbar {
+    display: none;
+  }
+  .process-step {
+    flex: 0 0 min(max(84%, 17rem), calc(100% - 12px), 420px);
+    scroll-snap-align: start;
+  }
+  .process-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 4px;
+  }
+  .process-dots button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .process-dots button::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(20, 23, 26, 0.25);
+    transition:
+      width 280ms var(--ease-out),
+      background 280ms var(--ease-out);
+  }
+  .process-dots button[aria-current="true"]::before {
+    width: 18px;
+    background: var(--ink-900);
+  }
+  .process-dots button:focus-visible {
+    outline: 2px solid var(--ink-900);
+    outline-offset: -4px;
+    border-radius: 999px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-step {
+    animation: none !important;
+    translate: none !important;
+    transform: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+  .process .g-form-sheet li span::after {
+    animation: none;
+    transform: translateY(-50%) scaleX(1);
+  }
+  .process .bento-graphic > *,
+  .process .process-step-icon,
+  .process .bento-index::after {
+    transition: none;
+  }
+  .process .bento-graphic > :not(.guilloche),
+  .process .process-step-icon {
+    transform: none !important;
+  }
+}
+@media (max-width: 767px) {
+  .process-step {
+    min-height: 460px;
+  }
+  .process-step .bento-index {
+    top: 18px;
+    font-size: 38px;
+  }
+}
+
+/* Drawn stand-ins, only while a card has no photograph. */
+.g-form {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding-top: 92px;
+}
+.g-form-sheet {
+  display: grid;
+  gap: 16px;
+  width: min(84%, 300px);
+  padding: 22px 22px 20px;
+  border: 1px solid var(--line-light);
+  border-radius: 6px;
+  background: var(--paper-50);
+  box-shadow: 0 24px 48px -30px rgba(20, 23, 26, 0.45);
+  color: var(--ink-900);
+}
+.g-form-sheet > strong {
+  font-size: 12px;
+  letter-spacing: var(--tracking-section);
+}
+.g-form-sheet ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.g-form-sheet li {
+  display: grid;
+  gap: 6px;
+}
+.g-form-sheet small {
+  font-size: 9.5px;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-600);
+}
+/* Each field line fills in turn, slowly, like a form being completed; paused offscreen with the section. */
+.g-form-sheet li span {
+  position: relative;
+  height: 26px;
+  border: 1px solid var(--line-light);
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+.g-form-sheet li span::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  height: 6px;
+  width: calc(62% - var(--field) * 9%);
+  border-radius: 3px;
+  background: rgba(20, 23, 26, 0.16);
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left;
+  animation: g-form-fill 7s var(--ease-out) infinite;
+  animation-delay: calc(var(--field) * 0.45s);
+}
+.process[data-motion-paused="true"] .g-form-sheet li span::after {
+  animation-play-state: paused;
+}
+@keyframes g-form-fill {
+  0%,
+  6% {
+    transform: translateY(-50%) scaleX(0);
+  }
+  22%,
+  86% {
+    transform: translateY(-50%) scaleX(1);
+  }
+  100% {
+    transform: translateY(-50%) scaleX(0);
+  }
+}
+.g-form-consent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-control);
+  color: var(--ink-900);
+}
+.g-form-consent svg {
+  box-sizing: content-box;
+  padding: 2px;
+  border-radius: 3px;
+  background: var(--ink-900);
+  color: var(--paper-50);
+}
+
+.g-options {
+  position: absolute;
+  inset: 28px 28px auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.g-options li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1px solid var(--line-dark);
+  border-radius: var(--radius-control);
+  background: rgba(28, 31, 34, 0.7);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-card-title);
+  color: var(--silver-300);
+}
+.g-options li span {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.g-options li.is-selected {
+  border-color: transparent;
+  background: linear-gradient(118deg, #f1f3f4, #c7ced4 60%, #aeb8c0);
+  color: var(--ink-900);
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.8);
+}
+
+.g-policy {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding-top: 36px;
+}
+.g-policy-sheet {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  gap: 18px;
+  width: min(86%, 300px);
+  padding: 24px;
+  border: 1px solid var(--line-dark);
+  border-radius: 6px;
+  background: linear-gradient(160deg, var(--ink-700), var(--ink-800));
+  transform: rotate(-3deg);
+  box-shadow: 0 30px 60px -30px #000;
+}
+.g-policy-sheet .guilloche {
+  z-index: -1;
+}
+.g-policy-sheet > strong {
+  font-size: 14px;
+  letter-spacing: var(--tracking-section);
+  color: var(--silver-50);
+}
+.g-policy-sheet dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+.g-policy-sheet dl div {
+  display: grid;
+  gap: 4px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-dark);
+}
+.g-policy-sheet dt {
+  font-size: 10px;
+  letter-spacing: var(--tracking-control);
+  color: var(--silver-400);
+}
+.g-policy-sheet dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--silver-100);
+}
+.g-stamp {
+  justify-self: end;
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  border: 1.5px solid rgba(215, 220, 224, 0.55);
+  border-radius: 50%;
+  color: var(--silver-200);
+  transform: rotate(-14deg);
+  box-shadow:
+    inset 0 0 0 4px var(--ink-800),
+    inset 0 0 0 5px rgba(215, 220, 224, 0.35);
+  text-align: center;
+}
+.g-stamp span {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+.g-stamp small {
+  margin-top: -18px;
+  font-size: 7px;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 767px) {
+  .g-options li:nth-child(n + 7) {
+    display: none;
+  }
+}

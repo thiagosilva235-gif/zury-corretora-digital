@@ -1,0 +1,41 @@
+.tilted-grid {
+  position: relative;
+  overflow: hidden;
+}
+.tilted-grid-band {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 500ms var(--ease-out);
+}
+.tilted-grid-tile {
+  position: absolute;
+  transform-style: preserve-3d;
+}
+.tilted-grid[data-motion-paused="true"] .tilted-grid-tile {
+  animation-play-state: paused;
+}
+/* Off-screen the 3D band (dozens of composited slices) is skipped entirely, so it no longer adds layerize and
+   commit work to every frame of the rest of the page. The component wakes it half a viewport early. */
+.tilted-grid[data-motion-paused="true"] .tilted-grid-band {
+  content-visibility: hidden;
+}
+.tilted-grid-slice {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  background: var(--ink-800);
+}
+.tilted-grid-slice[data-edge="start"] {
+  border-radius: var(--radius-card) 0 0 var(--radius-card);
+}
+.tilted-grid-slice[data-edge="end"] {
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+}
+.tilted-grid-image {
+  position: absolute;
+  top: 0;
+  max-width: none;
+  object-fit: cover;
+  user-select: none;
+}

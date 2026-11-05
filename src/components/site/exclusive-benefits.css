@@ -1,0 +1,93 @@
+/* The same section rhythm as Companhias, with floating logos on paper. */
+.benefits {
+  border-top: 1px solid var(--line-light);
+}
+.benefits-inner {
+  min-width: 0;
+}
+.benefits .section-head {
+  margin-bottom: clamp(28px, 3vw, 40px);
+  align-items: center;
+}
+.benefits .section-head h2 {
+  font-size: clamp(28px, 2.4vw + 12px, 48px);
+}
+.benefits .section-meta {
+  margin: 0;
+}
+.benefit-carousel {
+  padding: 12px 0;
+}
+.benefit-carousel .infinite-slider-group {
+  align-items: stretch;
+}
+.benefit-partner {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+  gap: 16px;
+  flex: none;
+  width: clamp(250px, 24vw, 330px);
+  min-width: 0;
+  pointer-events: none;
+}
+.benefit-logo-stage {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+.partner-logo {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 220px;
+  max-height: 100px;
+  object-fit: contain;
+}
+.benefit-logo-grupo-mv .partner-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.benefit-logo-otica-vemos .partner-logo {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+.benefit-logo-centrolab .partner-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+.benefit-copy {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  text-align: center;
+}
+.benefit-copy h3 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: var(--tracking-card-title);
+  color: var(--steel-700);
+}
+.benefit-offer {
+  margin: 0;
+  font-size: clamp(16px, 1.2vw + 4px, 20px);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: var(--tracking-financial);
+  color: var(--ink-900);
+  text-wrap: balance;
+}
+@media (max-width: 767px) {
+  .benefits .section-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .benefit-partner {
+    width: min(78vw, 300px);
+  }
+}

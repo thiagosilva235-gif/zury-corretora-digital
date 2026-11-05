@@ -1,0 +1,5 @@
+SVG Logos — https://github.com/gilbarbara/logos (CC0-1.0; LICENSE.txt).
+Source files: instagram-icon.svg, tiktok-icon.svg, facebook.svg, google-icon.svg, whatsapp-icon.svg.
+TikTok uses the white foreground variant for a dark surface; original paths retained.
+Instagram silhouette is rendered with a multicolor CSS mask.
+Brand trademarks belong to their respective owners.

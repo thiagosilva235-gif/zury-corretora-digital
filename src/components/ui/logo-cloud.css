@@ -1,0 +1,111 @@
+.infinite-slider {
+  overflow: hidden;
+  width: 100%;
+  min-width: 0;
+}
+.infinite-slider-track,
+.infinite-slider-group {
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+.infinite-slider-track {
+  will-change: transform;
+}
+.infinite-slider:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .infinite-slider {
+    overflow-x: auto;
+    scrollbar-width: thin;
+    scroll-behavior: auto;
+  }
+  .infinite-slider-track {
+    transform: none !important;
+    will-change: auto;
+  }
+  .infinite-slider-group[aria-hidden="true"] {
+    display: none;
+  }
+  .logo-cloud-rail {
+    mask-image: none;
+  }
+  .logo-cloud-item {
+    transition: none;
+  }
+  .logo-cloud-item:hover {
+    transform: none;
+  }
+}
+
+.logo-cloud {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  min-width: 0;
+}
+.logo-cloud-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(215, 220, 224, 0.45), transparent);
+}
+.logo-cloud-rule:first-child {
+  width: min(100%, 420px);
+  margin-bottom: 20px;
+}
+.logo-cloud-rule:last-child {
+  margin-top: 20px;
+}
+/* Rail straight on the graphite band: only the edges fade, no stage behind the logos. */
+.logo-cloud-rail {
+  width: 100%;
+  padding-block: 18px;
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+/* Transparent marks float directly above the section, keeping the same spacing and hover lift. */
+.logo-cloud-item {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  padding: 12px 22px;
+  border-radius: var(--radius-control);
+  background: transparent;
+  transition: transform 280ms var(--ease-out);
+}
+.logo-cloud-logo {
+  display: block;
+  height: auto;
+  max-height: 52px;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .logo-cloud-item:hover {
+    transform: translateY(-3px);
+  }
+}
+@media (max-width: 767px) {
+  .logo-cloud-rail {
+    padding-block: 12px;
+  }
+  .logo-cloud-item {
+    padding: 10px 16px;
+  }
+  .logo-cloud-logo {
+    max-height: 40px;
+  }
+}
+
+.logo-cloud-item {
+  min-height: 78px;
+  min-width: 150px;
+}
+@media (max-width: 767px) {
+  .logo-cloud-item {
+    min-height: 64px;
+    min-width: 125px;
+  }
+}

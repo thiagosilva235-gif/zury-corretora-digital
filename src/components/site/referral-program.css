@@ -1,0 +1,195 @@
+.referrals {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--ink-950);
+  color: var(--silver-100);
+  border-top: 1px solid var(--line-dark);
+}
+.referrals > .guilloche {
+  z-index: -1;
+}
+.referrals-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 96px);
+}
+.referrals-intro h2 {
+  margin: 0;
+  font-size: clamp(30px, 2.6vw + 12px, 52px);
+  line-height: 1.04;
+  font-weight: 600;
+  letter-spacing: var(--tracking-section);
+  color: var(--silver-50);
+}
+.referral-commercial {
+  margin: 28px 0 0;
+  max-width: 26ch;
+  font-size: clamp(20px, 1.6vw + 6px, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--silver-100);
+  text-wrap: balance;
+}
+/* Both offers share the same two grid rows (subgrid): the cards take the taller card's height and the buttons
+   one common height, side by side with no stagger. */
+.referral-offers {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 380px));
+  grid-template-rows: auto auto;
+  justify-content: center;
+  column-gap: clamp(24px, 3vw, 48px);
+}
+/* Diffuse light behind the pair: a pre-painted radial wash, no blur filter and no motion. */
+.referral-offers::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -16% -12% -10%;
+  background:
+    radial-gradient(46% 42% at 30% 44%, rgba(215, 220, 224, 0.09), transparent 72%),
+    radial-gradient(46% 42% at 70% 44%, rgba(215, 220, 224, 0.11), transparent 72%),
+    radial-gradient(62% 56% at 50% 46%, rgba(215, 220, 224, 0.05), transparent 78%);
+  pointer-events: none;
+}
+.referral-offer {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  row-gap: 22px;
+  min-width: 0;
+}
+
+/* Member card: the Glare Card at its original 17:21 proportion. */
+.member-card {
+  --glare-color: rgba(215, 220, 224, 0.16);
+  --glare-edge: rgba(215, 220, 224, 0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  aspect-ratio: 17 / 21;
+  align-self: stretch;
+  padding: clamp(26px, 2.2vw, 34px) clamp(24px, 2vw, 30px);
+  border-radius: 16px;
+  background: linear-gradient(155deg, var(--ink-700), var(--ink-900) 72%);
+  box-shadow:
+    inset 0 0 0 1px rgba(215, 220, 224, 0.14),
+    0 48px 80px -44px #000;
+  color: var(--silver-100);
+}
+.member-card[data-variant="commercial"] {
+  --glare-color: rgba(255, 255, 255, 0.75);
+  --glare-edge: rgba(20, 23, 26, 0.5);
+  background: linear-gradient(125deg, #f1f3f4 4%, #c7ced4 40%, #e6ebef 62%, #aeb8c0 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 48px 80px -44px #000;
+  color: var(--ink-900);
+}
+.member-card .guilloche {
+  z-index: -1;
+}
+.member-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.member-logo {
+  width: 116px;
+}
+.member-card[data-variant="commercial"] .member-logo {
+  background: var(--ink-900);
+}
+.member-card h3 {
+  margin: 12px 0 0;
+  font-size: clamp(19px, 0.5vw + 13px, 22px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: var(--tracking-card-title);
+}
+.member-topics {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+  line-height: 1.45;
+  letter-spacing: var(--tracking-copy);
+  opacity: 0.82;
+}
+.member-code {
+  display: grid;
+  gap: 5px;
+  margin-top: auto;
+  font-variant-numeric: tabular-nums;
+}
+.member-code span:first-child {
+  font-size: 9.5px;
+  letter-spacing: var(--tracking-control);
+  opacity: 0.7;
+}
+.member-code-mask {
+  font-size: 17px;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+.member-reward {
+  margin: 0;
+  padding-top: 14px;
+  border-top: 1px solid currentColor;
+  border-top-color: color-mix(in srgb, currentColor 22%, transparent);
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+/* Identical beam and silver face to the hero CTA; only sizing belongs here. */
+.btn.referral-cta {
+  isolation: isolate;
+  width: 100%;
+  min-height: 56px;
+  padding: 12px 24px;
+  background: var(--button-silver-face);
+  box-shadow: var(--button-silver-shadow);
+  color: var(--ink-900);
+  white-space: normal;
+}
+
+@media (max-width: 1199px) {
+  .referrals-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .referral-commercial {
+    max-width: 34ch;
+  }
+}
+@media (max-width: 640px) {
+  .referral-offers {
+    grid-template-columns: minmax(0, 380px);
+    grid-template-rows: none;
+    row-gap: 36px;
+  }
+  .referral-offer {
+    grid-row: auto;
+    grid-template-rows: auto auto;
+  }
+}
+
+.member-card .glare-card-light,
+.member-card .glare-card-foil {
+  display: none;
+}
+
+.member-card.glare-card::after {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn.referral-cta:hover {
+    background: var(--button-silver-hover);
+  }
+}

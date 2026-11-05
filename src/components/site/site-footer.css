@@ -1,0 +1,152 @@
+/* Footer section: rounded graphite panel spanning the section, glow and blurred hairline at the top centre.
+   The panel's inline padding lines its content up with the site container (gutter, 1320px cap) at every width. */
+.site-footer {
+  --footer-inset: clamp(8px, 1.2vw, 16px);
+  padding: 0 var(--footer-inset);
+  background: var(--ink-950);
+  color: var(--silver-200);
+  letter-spacing: var(--tracking-footer);
+}
+.footer-panel {
+  position: relative;
+  padding: clamp(44px, 5vw, 72px)
+    max(calc(var(--gutter) - var(--footer-inset)), calc((100% - 1320px) / 2)) 0;
+  border-top: 1px solid var(--line-dark);
+  border-radius: clamp(28px, 3vw, 48px) clamp(28px, 3vw, 48px) 0 0;
+  background:
+    radial-gradient(35% 160px at 50% 0%, rgba(215, 220, 224, 0.08), transparent), var(--ink-950);
+}
+.footer-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 33%;
+  height: 1px;
+  border-radius: 999px;
+  background: rgba(215, 220, 224, 0.32);
+  filter: blur(4px);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 240px) minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 72px);
+}
+.footer-brand {
+  display: flex;
+  align-items: flex-start;
+}
+.footer-logo {
+  display: block;
+  width: 168px;
+  max-width: 100%;
+}
+/* Columns size to their content and spread across the row, so the last one closes on the container's edge. */
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  justify-content: space-between;
+  gap: 32px clamp(24px, 3vw, 48px);
+}
+.footer-column h2 {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-control);
+  color: var(--silver-200);
+}
+.footer-column ul {
+  display: grid;
+  gap: 8px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.footer-lead {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--silver-300);
+}
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  border-radius: 2px;
+  font-size: 13.5px;
+  line-height: 1.35;
+  color: var(--silver-400);
+  transition: color 300ms var(--ease-out);
+}
+.footer-link svg {
+  flex-shrink: 0;
+}
+.footer-link small {
+  margin-left: 6px;
+  font-size: 11px;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-500);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer-link:hover {
+    color: var(--silver-50);
+  }
+}
+/* Bottom bar: full panel width under a hairline; the inline end reserves room for the floating WhatsApp disc
+   whenever the bar's edge comes within its reach. */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 32px;
+  margin-top: clamp(48px, 5vw, 72px);
+  padding: 26px max(0px, calc(112px - (100vw - 100%) / 2)) max(26px, env(safe-area-inset-bottom)) 0;
+  border-top: 1px solid var(--line-dark);
+}
+.footer-bottom .copyright {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--silver-400);
+}
+.footer-motto {
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-500);
+}
+
+@media (max-width: 1199px) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+@media (max-width: 767px) {
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 36px 24px;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 44px;
+    padding-block: 22px max(24px, env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 379px) {
+  .footer-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.site-footer {
+  --footer-inset: 0px;
+}
+.footer-panel {
+  border-radius: 0;
+}

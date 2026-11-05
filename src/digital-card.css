@@ -1,0 +1,577 @@
+.card-page {
+  --card-bg: #080808;
+  --card-text: #f3f5f6;
+  --card-muted: #b9c0c5;
+  --card-line: rgba(215, 220, 224, 0.18);
+  --card-outside-text: #f5f5f3;
+  --card-outside-muted: #b3b7ba;
+  --card-outside-line: rgba(245, 245, 243, 0.14);
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  overflow: clip;
+  background: var(--card-bg);
+  color: var(--card-text);
+  font-family: var(--font-inter-tight), Arial, sans-serif;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.card-page ::selection {
+  background: var(--card-text);
+  color: var(--card-bg);
+}
+.card-atmosphere,
+.card-shield-overlay {
+  --card-background-shift: clamp(40px, 8svh, 96px);
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  /* Large viewport height: stays the same size while mobile browser bars hide/show. */
+  height: 100vh;
+  height: 100lvh;
+  background: #08090b;
+  pointer-events: none;
+  overflow: hidden;
+}
+.card-atmosphere img {
+  display: block;
+  width: 100%;
+  height: calc(100% + var(--card-background-shift) * 2);
+  object-fit: cover;
+  object-position: center;
+}
+/* Cover coordinates follow the selected background, including its vertical overscan.
+   The PNG is untouched; the contour mask hides its baked-in checkerboard only. */
+.card-shield-overlay {
+  --shield-scene-ratio: 1882 / 3344;
+  --shield-scene-scale: 0.562799;
+  --shield-size: 84%;
+  --shield-center-y: 50.5%;
+  background: transparent;
+}
+.card-shield-plane {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--card-background-shift));
+  width: max(100vw, calc((100lvh + var(--card-background-shift) * 2) * var(--shield-scene-scale)));
+  aspect-ratio: var(--shield-scene-ratio);
+  transform: translate(-50%, -50%);
+  filter: blur(3px);
+}
+.card-shield-plane img {
+  position: absolute;
+  left: 50%;
+  top: var(--shield-center-y);
+  width: var(--shield-size);
+  height: auto;
+  transform: translate(-50%, -50%);
+  -webkit-mask: url("/brand/zury-escudo-contour-mask.svg") center / contain no-repeat;
+  mask: url("/brand/zury-escudo-contour-mask.svg") center / contain no-repeat;
+}
+@media (min-width: 768px) {
+  .card-shield-overlay {
+    --shield-scene-ratio: 2172 / 2896;
+    --shield-scene-scale: 0.75;
+    --shield-size: 55%;
+    --shield-center-y: 47.6%;
+  }
+}
+@media (orientation: landscape) {
+  .card-shield-overlay {
+    --shield-scene-ratio: 2896 / 2172;
+    --shield-scene-scale: 1.333333;
+    --shield-size: 41%;
+    --shield-center-y: 47.6%;
+  }
+}
+@media (min-width: 1100px) and (min-aspect-ratio: 3/2) {
+  .card-shield-overlay {
+    --shield-scene-ratio: 3344 / 1882;
+    --shield-scene-scale: 1.776833;
+    --shield-size: 40%;
+    --shield-center-y: 48%;
+  }
+}
+@media (min-width: 1100px) and (min-aspect-ratio: 2/1) {
+  .card-shield-overlay {
+    --shield-scene-ratio: 3832 / 1642;
+    --shield-scene-scale: 2.33374;
+    --shield-size: 28%;
+    --shield-center-y: 46.5%;
+  }
+}
+.card-wrap {
+  position: relative;
+  isolation: isolate;
+  width: min(960px, calc(100% - 96px));
+  margin: 24px auto 0;
+  padding-inline: 32px;
+}
+.card-outside {
+  --card-text: var(--card-outside-text);
+  --card-muted: var(--card-outside-muted);
+  --card-line: var(--card-outside-line);
+  width: min(960px, calc(100% - 96px));
+  margin: 56px auto 0;
+  color: var(--card-text);
+}
+.card-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding-block: 40px;
+}
+/* Logo shine comes from the shared .brand-shine (brand-shine.css). */
+.card-brand {
+  display: block;
+  width: 200px;
+  flex-shrink: 0;
+}
+.card-page .official-logo {
+  background: var(--card-text);
+}
+.card-page .card-brand .official-logo {
+  background: linear-gradient(110deg, #ffffff, #e2e8ec 50%, #f8fafb);
+}
+/* Secondary card buttons wear the COTAR AGORA face (quote-cta.css custom properties; fallbacks are the same
+   values) without its glow, lift or edge sweep: the Silver Light Trace answers hover instead. */
+.card-control {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--quote-graphite-face, linear-gradient(180deg, #101112, #030405));
+  box-shadow: var(
+    --quote-graphite-shadow,
+    inset 0 1px 1px rgba(255, 255, 255, 0.14),
+    0 2px 4px rgba(0, 0, 0, 0.12)
+  );
+  color: var(--quote-graphite-ink, var(--silver-50));
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  overflow-wrap: anywhere;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: transform 120ms var(--ease-out);
+}
+.card-control svg {
+  flex-shrink: 0;
+}
+.card-control > :is(svg, img, .card-instagram-icon) {
+  flex: none;
+}
+.card-control > span:not(.silver-trace):not(.card-instagram-icon):not(.sr-only) {
+  min-width: 0;
+}
+.card-control:focus-visible,
+.card-quote-cta:focus-visible,
+.card-page a:focus-visible {
+  outline: 2px solid var(--card-text);
+  outline-offset: 5px;
+}
+.card-control:active:not(:disabled) {
+  transform: scale(0.985);
+}
+.card-control:disabled {
+  opacity: 1;
+  color: rgba(245, 245, 243, 0.55);
+  cursor: default;
+}
+.card-opening-side {
+  display: grid;
+  gap: 44px;
+  align-content: start;
+  padding-block: 24px 40px;
+}
+
+.card-opening-side .card-channels {
+  padding-block: 0;
+}
+.card-opening-side .card-channels ul {
+  margin-top: 6px;
+}
+.card-intro {
+  padding-block: 4px 4px;
+  text-align: center;
+}
+.card-intro h1 {
+  margin: 0;
+  font-size: clamp(48px, 4.6vw, 66px);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  /* A glyph-local halo keeps the title readable over the shield's bright metal without altering the mesh. */
+  text-shadow:
+    0 1px 2px #000,
+    0 2px 8px #000;
+}
+.card-title-lines {
+  display: inline-flex;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+.card-reduced-title {
+  display: none;
+  text-wrap: balance;
+  line-height: 1.2;
+}
+.card-title-line {
+  display: block;
+  white-space: nowrap;
+}
+.card-title-line:last-child {
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+}
+/* Quote controls are shared with the home page, so remove only their arrow icons here. */
+.card-page .quote-dialog :is(.lucide-arrow-left, .lucide-arrow-right) {
+  display: none;
+}
+.card-word-window {
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  height: 1.2em;
+  margin-left: 0.18em;
+}
+.card-word-track {
+  display: block;
+  animation: card-word-rise 7.8s var(--ease-out) infinite;
+}
+.card-word {
+  display: block;
+  height: 1.2em;
+  line-height: 1.2;
+  /* Alinha à esquerda para a palavra ficar colada no "sua" (a janela tem a
+     largura da maior palavra; o sobrando fica no fim, não antes dela). */
+  text-align: left;
+}
+/* COTAR AGORA: exactly the header's capsule (quote-cta.css: face, type, glow, edge sweep, motion), sized for
+   the card, with the looping Silver Light Trace. The trace lives in the label span, so it takes the capsule's
+   radius explicitly. */
+.card-quote-cta.btn.quote-graphite {
+  isolation: isolate;
+  width: min(100%, 340px);
+  min-height: 56px;
+  margin-top: 28px;
+  padding: 0 24px;
+  font-size: 17px;
+}
+.card-quote-cta > span:not(.silver-trace) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.card-quote-cta img {
+  flex: none;
+}
+.card-page h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+.card-section-copy {
+  margin: 8px 0 24px;
+  color: var(--card-muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.card-whatsapp {
+  width: 100%;
+  padding-inline: 20px;
+}
+
+.card-channels {
+  padding-block: 0 72px;
+}
+.card-channels ul {
+  display: grid;
+  gap: 12px;
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+}
+.card-channel {
+  width: 100%;
+  padding-inline: 20px;
+}
+
+.card-channel img {
+  filter: grayscale(1) brightness(2);
+  object-fit: contain;
+}
+.card-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding-block: 48px 56px;
+  color: var(--card-outside-muted);
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+}
+.card-footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 24px;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  font-weight: 600;
+}
+.card-footer-nav a {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 8px 6px;
+  color: var(--card-outside-muted);
+  transition: color 0.2s ease;
+}
+.card-footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.card-footer-social {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--card-outside-line);
+  border-radius: var(--radius-control);
+  background: rgba(8, 8, 8, 0.6);
+  color: var(--card-outside-muted);
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.card-footer-social img {
+  filter: grayscale(1) brightness(2);
+  object-fit: contain;
+}
+.card-footer-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--card-outside-line);
+}
+.card-footer-legal {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 12px;
+}
+.card-page[data-paused="true"] .card-word-track,
+.card-page[data-paused="true"] .brand-shine-light::before,
+.card-page[data-paused="true"] .silver-trace::after {
+  animation-play-state: paused;
+}
+@keyframes card-word-rise {
+  0%,
+  27% {
+    transform: translateY(0);
+  }
+  33%,
+  60% {
+    transform: translateY(-25%);
+  }
+  66%,
+  93% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(-75%);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .card-control:hover {
+    background: var(--quote-graphite-face-hover, linear-gradient(180deg, #1c1d1e, #08090a));
+    box-shadow:
+      var(
+        --quote-graphite-shadow,
+        inset 0 1px 1px rgba(255, 255, 255, 0.14),
+        0 2px 4px rgba(0, 0, 0, 0.12)
+      ),
+      inset 0 0 18px rgba(214, 219, 223, 0.07);
+  }
+}
+@media (hover: hover) {
+  .card-footer-nav a:hover {
+    color: var(--card-outside-text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .card-footer-social:hover {
+    color: var(--card-outside-text);
+    border-color: rgba(245, 245, 243, 0.32);
+    background: rgba(24, 24, 24, 0.8);
+  }
+}
+@media (max-width: 820px) {
+  .card-outside {
+    width: min(600px, calc(100% - 64px));
+    margin-top: 40px;
+  }
+  .card-wrap {
+    width: min(600px, calc(100% - 32px));
+    margin: 14px auto 0;
+    padding-inline: 16px;
+  }
+  .card-masthead {
+    padding-block: 24px;
+    gap: 12px;
+  }
+  .card-brand {
+    width: 160px;
+  }
+  .card-opening-side {
+    padding-block: 0 32px;
+  }
+
+  .card-intro h1 {
+    font-size: clamp(30px, 9.2vw, 52px);
+  }
+  .card-quote-cta.btn.quote-graphite {
+    width: 100%;
+    min-height: 54px;
+    margin: 20px 0 24px;
+    font-size: 16px;
+  }
+  .card-page h2 {
+    font-size: 25px;
+  }
+  .card-section-copy {
+    margin-bottom: 16px;
+    font-size: 15px;
+  }
+  .card-whatsapp {
+    padding-inline: 14px;
+    gap: 8px;
+    font-size: 13px;
+  }
+
+  .card-channels {
+    padding-bottom: 48px;
+  }
+  .card-channels ul {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .card-channel {
+    width: 100%;
+    padding-inline: 14px;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .card-footer {
+    gap: 22px;
+    padding-block: 36px 40px;
+    font-size: 12px;
+  }
+  .card-footer-nav {
+    gap: 8px 18px;
+    font-size: 11px;
+  }
+  .card-footer-legal {
+    font-size: 11px;
+  }
+}
+@media (max-width: 370px) {
+  .card-wrap {
+    width: calc(100% - 24px);
+    padding-inline: 12px;
+  }
+  .card-brand {
+    width: 136px;
+  }
+  .card-whatsapp,
+  .card-channel {
+    padding-inline: 12px;
+  }
+}
+@media (forced-colors: active) {
+  .card-atmosphere,
+  .card-shield-overlay {
+    display: none;
+  }
+  .card-control {
+    border: 1px solid ButtonText;
+  }
+}
+
+.card-control {
+  text-transform: uppercase;
+}
+.card-opening-side .card-channels li {
+  display: grid;
+  gap: 12px;
+}
+.card-opening-side .card-channel img {
+  filter: none;
+}
+.card-control:hover {
+  background: var(--quote-graphite-face-hover);
+}
+
+.card-instagram-icon {
+  width: 19px;
+  height: 19px;
+  flex: none;
+  background: radial-gradient(
+    circle at 30% 100%,
+    #ffdc80 0%,
+    #f77737 30%,
+    #e1306c 55%,
+    #833ab4 85%
+  );
+  -webkit-mask: url("/card-icons/instagram.svg") center / contain no-repeat;
+  mask: url("/card-icons/instagram.svg") center / contain no-repeat;
+}
+
+/* Card-only exception: keep the complete message visible without word cycling or light movement. */
+@media (prefers-reduced-motion: reduce) {
+  .card-page *,
+  .card-page *::before,
+  .card-page *::after,
+  #card-contact-channels {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .card-title-lines,
+  .card-page .brand-shine-light {
+    display: none;
+  }
+  .card-reduced-title {
+    display: block;
+  }
+  .card-page .silver-trace::after {
+    opacity: 0;
+  }
+  .card-page :is(.card-control, .card-quote-cta):is(:hover, :active) {
+    transform: none;
+  }
+}

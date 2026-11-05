@@ -1,0 +1,87 @@
+.image-shield {
+  width: 100%;
+  aspect-ratio: 1;
+  position: relative;
+  perspective: 1200px;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+.image-shield-scroll,
+.image-shield-entry,
+.image-shield-float,
+.image-shield-tilt {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.image-shield-tilt {
+  display: grid;
+  place-items: center;
+}
+.image-shield-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: flat;
+  isolation: isolate;
+  backface-visibility: hidden;
+}
+.image-shield-reflection {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+.image-shield-reflection-sweep {
+  opacity: 0;
+}
+.image-shield-light {
+  position: absolute;
+  inset: -9% -6%;
+  pointer-events: none;
+  z-index: -1;
+}
+.image-shield-light-drift,
+.image-shield-light-pointer {
+  width: 100%;
+  height: 100%;
+}
+.image-shield-light-drift {
+  opacity: 0.7;
+}
+.image-shield-light-pointer {
+  background:
+    radial-gradient(ellipse 23% 57% at 70% 42%, rgba(214, 211, 209, 0.18), transparent 80%),
+    radial-gradient(ellipse 45% 18% at 52% 79%, rgba(234, 234, 229, 0.09), transparent 85%);
+}
+.image-shield img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .image-shield-scroll,
+  .image-shield-entry,
+  .image-shield-float,
+  .image-shield-tilt {
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  .image-shield-light-drift,
+  .image-shield-light-pointer {
+    transform: none !important;
+  }
+  .image-shield-reflection {
+    display: none;
+  }
+}
+@media (hover: none), (pointer: coarse) {
+  .image-shield-reflection {
+    display: none;
+  }
+}

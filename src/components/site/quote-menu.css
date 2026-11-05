@@ -1,0 +1,450 @@
+/* Only the glowing graphite capsule (quote-cta.css) shows the trigger's light track. */
+.quote-sweep {
+  display: none;
+}
+.quote-dialog {
+  --text: var(--ink-900);
+  --muted: var(--steel-600);
+  --quote-error: #9b2c22;
+  width: min(640px, calc(100% - 32px));
+  max-height: calc(100dvh - 40px);
+  margin: auto;
+  padding: 32px;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-card);
+  color: var(--ink-900);
+  background: var(--paper-50);
+  box-shadow: 0 24px 64px -24px rgba(10, 12, 14, 0.55);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  color-scheme: light;
+  caret-color: var(--ink-900);
+  scrollbar-color: var(--silver-400) transparent;
+  text-align: left;
+  /* Own the type voice: the dialog mounts on the home page and on /cartao (different page roots). */
+  font-family: var(--font-inter-tight), Arial, sans-serif;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-popover);
+}
+.quote-dialog::backdrop {
+  background: rgba(10, 12, 14, 0.62);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.quote-dialog ::selection {
+  background: var(--ink-900);
+  color: var(--silver-50);
+}
+.quote-dialog[open] {
+  animation: quote-open 220ms var(--ease-out) both;
+}
+@keyframes quote-open {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* The dialog is a paper surface: buttons take the light-surface roles. */
+.quote-dialog .btn-primary {
+  background: var(--ink-900);
+  color: var(--silver-50);
+}
+.quote-dialog .btn-secondary {
+  border-color: rgba(20, 23, 26, 0.3);
+  color: var(--ink-900);
+}
+.quote-dialog .btn-icon {
+  border-color: var(--line-light);
+}
+@media (hover: hover) and (pointer: fine) {
+  .quote-dialog .btn-primary:hover {
+    background: var(--ink-700);
+  }
+  .quote-dialog .btn-secondary:hover,
+  .quote-dialog .btn-icon:hover {
+    background: rgba(20, 23, 26, 0.05);
+    border-color: rgba(20, 23, 26, 0.5);
+  }
+}
+.quote-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--line-light);
+}
+.quote-dialog .quote-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: var(--tracking-section);
+}
+.quote-progress-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 20px 0 16px;
+}
+.quote-progress {
+  margin: 0;
+  font-size: 12px;
+  color: var(--steel-600);
+  font-variant-numeric: tabular-nums;
+}
+.quote-track {
+  display: grid;
+  grid-template-columns: repeat(4, 20px);
+  gap: 4px;
+  flex-shrink: 0;
+}
+.quote-track span {
+  height: 2px;
+  background: var(--silver-200);
+  transition: background-color 220ms var(--ease-out);
+}
+.quote-track .is-done {
+  background: var(--ink-900);
+}
+.quote-step {
+  animation: quote-step 220ms var(--ease-out) both;
+}
+@keyframes quote-step {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+.quote-options {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.quote-options legend,
+.quote-step-title {
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+.quote-step-title:focus {
+  outline: none;
+}
+.quote-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 60px;
+  padding: 14px 16px;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-control);
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    border-color 160ms,
+    background-color 160ms;
+}
+.quote-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.quote-option-text {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.quote-option-text small {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--steel-600);
+  font-variant-numeric: tabular-nums;
+}
+.quote-option svg {
+  flex-shrink: 0;
+  opacity: 0;
+}
+.quote-option:has(:checked) {
+  border-color: var(--ink-900);
+  background: var(--paper-100);
+  box-shadow: inset 0 0 0 1px var(--ink-900);
+}
+.quote-option:has(:checked) svg {
+  opacity: 1;
+}
+.quote-option:has(:focus-visible) {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .quote-option:hover {
+    border-color: var(--steel-500);
+  }
+}
+/* Step 3: chosen area + solution, each with its own way back. */
+.quote-selection {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line-light);
+  border-radius: var(--radius-control);
+  background: var(--paper-100);
+}
+.quote-selection > div {
+  min-width: 0;
+  padding: 10px 8px 10px 14px;
+}
+.quote-selection > div + div {
+  border-left: 1px solid var(--line-light);
+}
+.quote-selection dt {
+  font-size: 11px;
+  color: var(--steel-600);
+  letter-spacing: var(--tracking-control);
+}
+.quote-selection dd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 2px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+.quote-selection dd span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.quote-change {
+  flex-shrink: 0;
+  min-height: 40px;
+  margin-block: -8px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: transparent;
+  color: var(--ink-900);
+  font-size: 11px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .quote-change:hover {
+    background: rgba(20, 23, 26, 0.05);
+  }
+}
+.quote-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 12px;
+  margin-top: 24px;
+}
+.quote-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.quote-field.is-wide,
+.quote-consent {
+  grid-column: 1 / -1;
+}
+.quote-field label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-700);
+}
+.quote-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--steel-500);
+  border-radius: var(--radius-control);
+  background: #fff;
+  color: var(--ink-900);
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  font-variant-numeric: tabular-nums;
+  transition:
+    border-color 160ms,
+    box-shadow 160ms;
+}
+.quote-field input::placeholder {
+  color: var(--steel-600);
+  opacity: 1;
+}
+.quote-field input:focus-visible,
+.quote-consent input:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
+}
+.quote-field input[aria-invalid="true"] {
+  border-color: var(--quote-error);
+  box-shadow: inset 0 0 0 1px var(--quote-error);
+}
+@media (hover: hover) and (pointer: fine) {
+  .quote-field input:hover:not(:focus) {
+    border-color: var(--ink-700);
+  }
+}
+.quote-consent {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+.quote-consent-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.quote-consent input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--ink-900);
+  cursor: pointer;
+}
+.quote-consent label {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--steel-700);
+  text-transform: none;
+  letter-spacing: 0.005em;
+  cursor: pointer;
+}
+.quote-consent input[aria-invalid="true"] {
+  outline: 2px solid var(--quote-error);
+  outline-offset: 2px;
+}
+.quote-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--quote-error);
+  text-transform: none;
+  letter-spacing: 0.005em;
+}
+.quote-error svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+/* Step 4: everything that goes into the WhatsApp message. */
+.quote-review {
+  margin: 0;
+  border-top: 1px solid var(--line-light);
+}
+.quote-review > div {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-light);
+}
+.quote-review dt {
+  font-size: 11px;
+  line-height: 1.8;
+  color: var(--steel-600);
+  letter-spacing: var(--tracking-control);
+}
+.quote-review dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--ink-900);
+  text-transform: none;
+  letter-spacing: 0.005em;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.quote-note {
+  max-width: 60ch;
+  margin: 16px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--steel-700);
+  text-transform: none;
+  letter-spacing: 0.005em;
+}
+.quote-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-light);
+}
+.quote-actions > :last-child {
+  margin-left: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote-dialog[open],
+  .quote-step {
+    animation: none;
+  }
+}
+@media (max-width: 560px) {
+  .quote-fields,
+  .quote-selection {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .quote-selection > div + div {
+    border-left: 0;
+    border-top: 1px solid var(--line-light);
+  }
+  .quote-review > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+}
+@media (max-width: 480px) {
+  .quote-dialog {
+    padding: 20px;
+  }
+  .quote-options {
+    grid-template-columns: 1fr;
+  }
+  .quote-option {
+    min-height: 52px;
+  }
+  .quote-dialog .quote-header h2 {
+    font-size: 19px;
+  }
+  .quote-track {
+    grid-template-columns: repeat(4, 12px);
+  }
+  .quote-actions {
+    flex-direction: column-reverse;
+  }
+  .quote-actions > .btn {
+    width: 100%;
+    margin-left: 0;
+  }
+}

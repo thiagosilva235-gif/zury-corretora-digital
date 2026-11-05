@@ -1,0 +1,166 @@
+/* Pearl capsule and mirrored central recess from the owner's navbar reference. */
+:root {
+  --navbar-pearl-face: linear-gradient(
+    105deg,
+    #faf9f8 0%,
+    #e8e5e4 24%,
+    #efedec 50%,
+    #e9e6e5 76%,
+    #faf9f8 100%
+  );
+  --navbar-pearl-shadow:
+    inset 0 1px 1px #fff, inset 0 -1px 2px rgba(96, 96, 96, 0.22), 0 8px 24px rgba(0, 0, 0, 0.22);
+}
+.header-desktop {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  .zury-site .site-header,
+  .zury-site .site-header[data-scrolled="true"] {
+    height: clamp(60px, 4vw, 72px);
+    background: transparent;
+    border-bottom-color: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    pointer-events: none;
+  }
+  .zury-site .header-mobile {
+    display: none;
+  }
+  .header-desktop {
+    --desktop-nav-ink: var(--ink-950);
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 32% minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    height: clamp(60px, 4vw, 72px);
+    margin: 0;
+    padding-inline: clamp(16px, 1.5vw, 28px);
+    border-radius: 999px;
+    background: var(--navbar-pearl-face);
+    box-shadow: var(--navbar-pearl-shadow);
+    color: var(--desktop-nav-ink);
+    pointer-events: auto;
+  }
+  .desktop-nav-side {
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    /* Two items per side: spread evenly so neither side leaves a wide hole between its links. */
+    justify-content: space-evenly;
+    gap: clamp(12px, 1.8vw, 34px);
+    min-width: 0;
+    height: 100%;
+  }
+  /* Mirrored geometry: the outer items sit the same distance from the capsule ends, the inner ones from the recess. */
+  .desktop-nav-left {
+    padding-inline: clamp(8px, 0.9vw, 18px) clamp(18px, 2.4vw, 56px);
+  }
+  .desktop-nav-right {
+    padding-inline: clamp(18px, 2.4vw, 56px) clamp(8px, 0.9vw, 18px);
+  }
+  .desktop-nav-link {
+    position: relative;
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    color: var(--desktop-nav-ink);
+    font: inherit;
+    font-size: clamp(12px, 1.18vw, 19px);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 160ms ease;
+  }
+  .desktop-social > svg {
+    width: 1.05em;
+    height: 1.05em;
+  }
+  .desktop-nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 7px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-out);
+  }
+  .desktop-nav-link[aria-current]::after,
+  .zury-site:has(#social-channels:popover-open) .desktop-social::after {
+    transform: scaleX(1);
+  }
+  .desktop-brand-link {
+    position: relative;
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    align-self: stretch;
+    min-width: 0;
+    border-radius: var(--radius-control);
+    /* Equal sides keep the mark on the viewport axis, independent of the link lengths. */
+  }
+  .desktop-brand-recess {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  /* Keep the previous logo box and the same silhouette for the light sweep. */
+  .desktop-brand-mark.brand-shine {
+    --brand-shine-mask: url("/brand/zury-assinatura-enviada.png");
+    display: block;
+    width: clamp(166px, 12vw, 218px);
+    max-width: 72%;
+    aspect-ratio: 1046 / 324;
+  }
+  .desktop-brand-logo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0);
+    /* The supplied artwork has slightly more opaque detail on the left; centre its visual weight. */
+    transform: translate(1.3%, -2px) scale(1.2);
+  }
+  .desktop-brand-mark .brand-shine-light {
+    transform: translate(1.3%, -2px) scale(1.2);
+  }
+  /* Visual identity lives in quote-cta.css (.quote-graphite), shared with /cartao; this is placement only. */
+  .header-desktop .desktop-quote {
+    --quote-glow-strength: 0.55;
+    flex: 0 0 auto;
+    width: clamp(144px, 14.5vw, 252px);
+    min-height: 0;
+    height: 68%;
+    padding: 0 16px;
+    font-size: clamp(13px, 1.18vw, 19px);
+  }
+  .header-desktop :is(a, button):focus-visible {
+    outline: 2px solid var(--desktop-nav-ink);
+    outline-offset: 5px;
+  }
+}
+
+@media (min-width: 1100px) and (hover: hover) and (pointer: fine) {
+  .desktop-nav-link:hover::after {
+    transform: scaleX(1);
+  }
+}

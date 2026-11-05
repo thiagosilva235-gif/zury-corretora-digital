@@ -1,0 +1,49 @@
+/* Shared graphite face; green movement is owned by SilverTrace. */
+:root {
+  --quote-graphite-face:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.12), transparent 42%),
+    linear-gradient(180deg, #101112, #030405);
+  --quote-graphite-face-hover:
+    linear-gradient(165deg, rgba(255, 255, 255, 0.16), transparent 42%),
+    linear-gradient(180deg, #1c1d1e, #08090a);
+  --quote-graphite-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.14), 0 2px 4px rgba(0, 0, 0, 0.12);
+  --quote-graphite-ink: var(--silver-50);
+}
+.btn.quote-graphite {
+  isolation: isolate;
+  border: 0;
+  border-radius: var(--radius-control);
+  background: var(--quote-graphite-face);
+  box-shadow: var(--quote-graphite-shadow);
+  color: var(--quote-graphite-ink);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  transform: none;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 160ms ease;
+}
+.quote-graphite > svg {
+  display: none;
+}
+.green-cta {
+  isolation: isolate;
+}
+.btn.quote-graphite--glow {
+  /* Persistent glass reflection and controlled halo, without opacity/scale pulsing. */
+  box-shadow:
+    var(--quote-graphite-shadow),
+    0 0 12px rgba(37, 211, 102, 0.12);
+}
+.btn.quote-graphite:active:not(:disabled) {
+  transform: scale(0.985);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn.quote-graphite:hover {
+    background: var(--quote-graphite-face-hover);
+    transform: translateY(-6px);
+  }
+  .btn.quote-graphite:hover:active {
+    transform: scale(0.985);
+  }
+}

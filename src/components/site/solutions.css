@@ -1,0 +1,318 @@
+/* Nossas Soluções on paper (surface-light): the one bright section between the graphite hero and Como Funciona.
+   Ink type, steel secondary text, hairlines in --line-light; the catalog reads like a printed index. */
+.solutions {
+  border-block: 1px solid var(--line-light);
+}
+.solutions-head {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+.solutions-intro {
+  display: grid;
+  justify-items: start;
+  gap: 20px;
+}
+.solutions-intro h2 {
+  margin: 0;
+  font-size: clamp(32px, 3vw + 12px, 60px);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: var(--tracking-section);
+  color: var(--ink-900);
+}
+.solutions-intro > p {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--steel-600);
+}
+.solutions-figures {
+  display: flex;
+  gap: 36px;
+  margin: 8px 0 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line-light);
+  width: min(100%, 360px);
+}
+.solutions-figures div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 6px;
+}
+.solutions-figures dt {
+  font-size: 11px;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-600);
+}
+.solutions-figures dd {
+  margin: 0;
+  font-size: 44px;
+  font-weight: 600;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-900);
+}
+/* Curved photo row beside the intro: the areas stream past on the inside of a cylinder. It is a size container,
+   so it needs a fixed height. Tiles carry a soft drop shadow so they lift off the paper. */
+.solutions-curve {
+  height: 460px;
+  min-width: 0;
+}
+.solutions-curve .tilted-grid-band {
+  filter: drop-shadow(0 18px 22px rgba(20, 23, 26, 0.18));
+}
+
+/* Catalog (desktop): one ruled sheet, 3 × 2 uniform entries with indexed, clickable solutions. */
+.service-catalog {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Equal rows: the five-item RC card sets the height for every card. */
+  grid-auto-rows: 1fr;
+  border-top: 1px solid var(--line-light);
+  border-left: 1px solid var(--line-light);
+  background: rgba(255, 255, 255, 0.55);
+}
+.catalog-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 26px 28px 28px;
+  border-right: 1px solid var(--line-light);
+  border-bottom: 1px solid var(--line-light);
+  transition: background 240ms var(--ease-out);
+}
+.catalog-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.catalog-number {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-control);
+  color: var(--ink-900);
+}
+.catalog-count {
+  flex-shrink: 0;
+  font-size: 11px;
+  letter-spacing: var(--tracking-control);
+  color: var(--steel-600);
+}
+.catalog-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: var(--tracking-card-title);
+  text-wrap: balance;
+  color: var(--ink-900);
+}
+.catalog-title svg {
+  flex-shrink: 0;
+  color: var(--steel-600);
+}
+.catalog-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.catalog-list li {
+  border-top: 1px dotted rgba(20, 23, 26, 0.2);
+}
+/* Each solution opens the quote dialog preselected; a soft underline always marks it clickable and darkens on
+   hover/focus. */
+.catalog-item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 4px;
+  width: 100%;
+  min-height: 36px;
+  padding: 8px 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: inherit;
+  text-align: left;
+  color: var(--steel-700);
+  cursor: pointer;
+  transition: color 220ms var(--ease-out);
+}
+.catalog-item-bullet {
+  font-size: 12px;
+  color: var(--steel-500);
+}
+.catalog-item-label {
+  justify-self: start;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(20, 23, 26, 0.28);
+  transition: text-decoration-color 320ms var(--ease-out);
+}
+.catalog-item:focus-visible {
+  outline: 2px solid var(--ink-900);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.catalog-item:focus-visible .catalog-item-label {
+  text-decoration-color: currentColor;
+}
+.catalog-item:active .catalog-item-label {
+  color: var(--ink-900);
+}
+@media (hover: hover) and (pointer: fine) {
+  .catalog-entry:hover {
+    background: #fff;
+  }
+  .catalog-item:hover {
+    color: var(--ink-900);
+  }
+  .catalog-item:hover .catalog-item-label {
+    text-decoration-color: currentColor;
+  }
+}
+.catalog-dots {
+  display: none;
+}
+.solutions-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(36px, 4vw, 56px);
+}
+
+@media (max-width: 1023px) {
+  .solutions-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .solutions-curve {
+    height: 380px;
+  }
+  .service-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Mobile: the six areas become a swipe carousel of white cards on the paper, with a position indicator. */
+@media (max-width: 767px) {
+  .solutions-curve {
+    height: 200px;
+  }
+  .solutions-head {
+    margin-bottom: 32px;
+  }
+  .service-catalog {
+    display: flex;
+    gap: 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    padding: 4px var(--gutter) 16px;
+    border: 0;
+    background: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .service-catalog::-webkit-scrollbar {
+    display: none;
+  }
+  .catalog-entry {
+    flex: 0 0 min(84%, 340px);
+    scroll-snap-align: start;
+    gap: 14px;
+    padding: 22px 20px 20px;
+    border: 1px solid var(--line-light);
+    border-radius: var(--radius-card);
+    background: #fff;
+    box-shadow: 0 10px 24px -18px rgba(20, 23, 26, 0.35);
+  }
+  .catalog-title svg {
+    box-sizing: content-box;
+    padding: 10px;
+    border: 1px solid var(--line-light);
+    border-radius: var(--radius-control);
+    color: var(--ink-900);
+  }
+  .catalog-item {
+    min-height: 44px;
+    align-items: center;
+    font-size: 14px;
+  }
+  .catalog-dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-top: 4px;
+  }
+  .catalog-dots button {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+  .catalog-dots button::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(20, 23, 26, 0.25);
+    transition:
+      width 280ms var(--ease-out),
+      background 280ms var(--ease-out);
+  }
+  .catalog-dots button[aria-current="true"]::before {
+    width: 18px;
+    background: var(--ink-900);
+  }
+  .catalog-dots button:focus-visible {
+    outline: 2px solid var(--ink-900);
+    outline-offset: -4px;
+    border-radius: 999px;
+  }
+  .solutions-cta .btn {
+    width: 100%;
+  }
+}
+
+.catalog-list li {
+  border-top: 0;
+}
+.catalog-head {
+  justify-content: flex-end;
+}
+
+.solutions-cta .solutions-quote-cta {
+  min-height: 58px;
+  min-width: min(100%, 320px);
+  padding: 14px 36px;
+  font-size: 15px;
+}
+.solutions-cta .solutions-quote-cta.quote-graphite {
+  border: 0;
+  background: var(--quote-graphite-face);
+  color: var(--quote-graphite-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .solutions-cta .solutions-quote-cta.quote-graphite:hover {
+    background: var(--quote-graphite-face-hover);
+  }
+}
